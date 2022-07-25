@@ -17,16 +17,16 @@ import {
 } from '@chakra-ui/react';
 import { ArrowDownIcon, ArrowUpIcon, CheckIcon } from '@chakra-ui/icons';
 
-export async function getServerSideProps(context:any) {
-  console.log('context.query :>> ', context.query);
-  const url = context.query ? `https://api.github.com/search/repositories/?q=${context.query}` :"https://api.github.com/search/repositories";
-  const token = { headers: { "Authorization": `xxxx` } }
-  const res = await fetch(url,token)
+export async function getServerSideProps(context: any) {
+  console.log('context.query :>> ', context.query.q);
+  const url = context.query ? `https://api.github.com/search/repositories/?q=${context.query.q}` : "https://api.github.com/search/repositories";
+  const token = { headers: { "Authorization": `xxxxx` } }
+  const res = await fetch(url, token)
   const data = await res.json()
   console.log('data :>> ', data);
   return { props: { data } }
 }
-const Home: NextPage = ({data:any}) => {
+const Search: NextPage = ({ data: any }) => {
   const [search, setSearch] = useState('')
   const [filter, setFilter] = useState(false);
   const router = useRouter()
@@ -86,10 +86,10 @@ const Home: NextPage = ({data:any}) => {
                 colorScheme={'blue'}
                 w="100%"
                 type={'submit'}
-                onClick={()=>{
+                onClick={() => {
                   router.push(`/search/?q=${search}`)
                 }}
-                >
+              >
                 {'Search'}
               </Button>
             </FormControl>
@@ -110,15 +110,15 @@ const Home: NextPage = ({data:any}) => {
       </Flex>
 
       <footer className={styles.footer}>
-        
-          Powered by{' '}
-          <span className={styles.logo}>
-            devgroves
-          </span>
-       
+
+        Powered by{' '}
+        <span className={styles.logo}>
+          devgroves
+        </span>
+
       </footer>
     </div>
   )
 }
 
-export default Home
+export default Search
