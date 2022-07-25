@@ -21,7 +21,7 @@ import { ArrowDownIcon, ArrowUpIcon, CheckIcon } from '@chakra-ui/icons';
 export async function getServerSideProps(context:any) {
   console.log('context.query :>> ', context.query);
   const url = context.query ? `https://api.github.com/search/repositories/?q=${context.query}` :"https://api.github.com/search/repositories";
-  const token = { headers: { "Authorization": `token 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` } }
+  const token = { headers: { "Authorization": `xxx` } }
   const res = await fetch(url,token)
   const data = await res.json()
   return { props: { data } }
