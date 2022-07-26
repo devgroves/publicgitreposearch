@@ -19,13 +19,17 @@ import { ArrowDownIcon, ArrowUpIcon, CheckIcon } from '@chakra-ui/icons';
 
 export async function getServerSideProps(context: any) {
   console.log('context.query :>> ', context.query.q);
-  const url = context.query ? `https://api.github.com/search/repositories/?q=${context.query.q}` : "https://api.github.com/search/repositories";
-  const token = { headers: { "Authorization": `xxxxx` } }
-  const res = await fetch(url, token)
-  const data = await res.json()
+  const url = context.query ? `https://api.github.com/search/repositories?q=${context.query.q}` : "https://api.github.com/search/repositories";
+  const options = { headers: { "Authorization": `token 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`,
+                              "Accept": "application/vnd.github.v3+json" },
+                  method: 'GET' };
+  console.log('url ', url, 'options ', options);
+  const res = await fetch(url, options);
+  const data = await res.json();
   console.log('data :>> ', data);
-  return { props: { data } }
+  return { props: { data } };
 }
+
 const Search: NextPage = ({ data: any }) => {
   const [search, setSearch] = useState('')
   const [filter, setFilter] = useState(false);

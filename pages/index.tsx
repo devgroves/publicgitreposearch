@@ -20,16 +20,23 @@ import { ArrowDownIcon, ArrowUpIcon, CheckIcon } from '@chakra-ui/icons';
 export async function getServerSideProps(context:any) {
   console.log('context.query :>> ', context.query);
   const url = context.query ? `https://api.github.com/search/repositories/?q=${context.query}` :"https://api.github.com/search/repositories";
-  const token = { headers: { "Authorization": `xxxx` } }
-  const res = await fetch(url,token)
-  const data = await res.json()
+  const token = { headers: { "Authorization": `token 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`,
+                              "Accept": "application/vnd.github.v3+json" },
+                  method: 'GET' };
+  console.log('url ', url, 'token ', token);
+  const res = await fetch(url, token);
+  const data = await res.json();
   console.log('data :>> ', data);
   return { props: { data } }
 }
 const Home: NextPage = ({data:any}) => {
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState('');
   const [filter, setFilter] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
+  const handleClick = (e: any) => {
+    e.preventDefault();
+    console.log("search value", e.currentTarget.value);
+  };
   return (
     <div className={styles.container}>
       <Head>
@@ -75,9 +82,10 @@ const Home: NextPage = ({data:any}) => {
                 borderColor={useColorModeValue('gray.300', 'gray.700')}
                 required
                 value={search}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setSearch(e.target.value)
-                }
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>{
+                  setSearch(e.target.value);
+                  handleClick(e);
+                } }
                 placeholder="example: reactlightbox , ......"
               />
             </FormControl>
