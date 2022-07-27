@@ -20,7 +20,7 @@ import { ArrowDownIcon, ArrowUpIcon, CheckIcon } from '@chakra-ui/icons';
 export async function getServerSideProps(context:any) {
   console.log('context.query :>> ', context.query);
   const url = context.query ? `https://api.github.com/search/repositories/?q=${context.query}` :"https://api.github.com/search/repositories";
-  const token = { headers: { "Authorization": `token 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`,
+  const token = { headers: { "Authorization": `token xxx`,
                               "Accept": "application/vnd.github.v3+json" },
                   method: 'GET' };
   console.log('url ', url, 'token ', token);
