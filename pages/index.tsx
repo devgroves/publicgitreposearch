@@ -1,4 +1,4 @@
-import type { NextPage } from 'next'
+import type { GetServerSidePropsContext, GetStaticPropsContext, GetStaticPropsResult, NextPage } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { ColorModeSwitcher } from '../components/mode'
@@ -11,26 +11,57 @@ import {
   Button,
   useColorModeValue,
   Heading,
+  VStack,
+  Flex,
+  Spacer,
   Text,
   Container,
-  Flex,
 } from '@chakra-ui/react';
 import { ArrowDownIcon, ArrowUpIcon, CheckIcon } from '@chakra-ui/icons';
 
-export async function getServerSideProps(context:any) {
-  console.log('context.query :>> ', context.query);
-  const url = context.query ? `https://api.github.com/search/repositories?q=${context.query}` :"https://api.github.com/search/repositories";
+type RepoItem = {
+  id: string,
+  name: string,
+  full_name: string,
+}
+type ContentPageProps = {
+  repos: RepoItem[],
+  searchText: string,
+  count: number
+}
+
+type QueryParams = {
+  q: string
+}
+
+export const getServerSideProps = async ({query,}: GetServerSidePropsContext<QueryParams>): 
+  Promise<GetStaticPropsResult<ContentPageProps>> =>  {
+  console.log('context.query :>> ', query);
+  if (!query || !query?.q) {
+    return { props: {repos: [], searchText: '', count: 0}};
+  }
+  const searchText: string =  query.q[0];
+  const url = `https://api.github.com/search/repositories?q=${query?.q}`;
   const token = { headers: { "Authorization": `token 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`,
                               "Accept": "application/vnd.github.v3+json" },
                   method: 'GET' };
   console.log('url ', url, 'token ', token);
   const res = await fetch(url, token);
   const data = await res.json();
-  console.log('data :>> ', data);
-  return { props: { data } }
+  console.log('data :>> ', data.items.length);
+  const repos: RepoItem[] = data.items.map((item: any) => {
+    const repo = {
+      id: item.id,
+      name: item.name,
+      full_name: item.full_name
+    };
+    return repo;
+  });
+  const results = {'repos': repos, 'searchText': searchText, 'count': data.total_count || 0};
+  return { props: results };
 }
 
-const Home: NextPage = ({data:any}) => {
+const Home = ({repos, searchText, count}: ContentPageProps): JSX.Element => {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState(false);
   const router = useRouter();
@@ -44,7 +75,6 @@ const Home: NextPage = ({data:any}) => {
       </Head>
       <ColorModeSwitcher justifySelf="flex-end" />
       <Flex
-        minH={'60vh'}
         align={'center'}
         justify={'center'}
         bg={useColorModeValue('gray.50', 'gray.800')}>
@@ -79,7 +109,7 @@ const Home: NextPage = ({data:any}) => {
                 }}
                 borderColor={useColorModeValue('gray.300', 'gray.700')}
                 required
-                value={search}
+                value={search || searchText}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>{
                   setSearch(e.target.value);
                 } }
@@ -113,10 +143,21 @@ const Home: NextPage = ({data:any}) => {
 
         </Container>
       </Flex>
+      
+      <VStack>
+        <Spacer />
+          { repos && repos.map((repoItem: RepoItem) => (
+              // eslint-disable-next-line react/jsx-key
+              <Container maxW='100%' bg='cadetblue' color='white'>
+                <h4>{repoItem.name}</h4>
+                <p>{repoItem.full_name}</p>
+              </Container>
+          ))}
+      </VStack>
 
       <footer className={styles.footer}>
         
-          Powered by{' '}
+          Powered by {' '}
           <span className={styles.logo}>
             devgroves
           </span>
@@ -126,4 +167,4 @@ const Home: NextPage = ({data:any}) => {
   )
 }
 
-export default Home
+export default Home;
