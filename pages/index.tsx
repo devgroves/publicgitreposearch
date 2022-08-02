@@ -32,6 +32,8 @@ type RepoItem = {
   forks: number;
   homepage: URL;
   topics: Array<string>;
+  tags:URL;
+  size:number;
 };
 type ContentPageProps = {
   repos: RepoItem[];
@@ -73,6 +75,8 @@ export const getServerSideProps = async ({
       forks: item.forks,
       homepage: item.homepage,
       topics: item.topics,
+      tags: item.tags_url,
+      size:item.size
     };
     return repo;
   });

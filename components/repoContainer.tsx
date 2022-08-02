@@ -12,9 +12,10 @@ import {
   Badge,
   Link,
 } from "@chakra-ui/react";
-import { ReactNode } from "react";
-import { GoStar, GoRepoForked, GoEye } from "react-icons/go";
+import { ReactNode, useEffect } from "react";
+import { GoStar, GoRepoForked, GoEye, GoTag, GoGitBranch } from "react-icons/go";
 import NextLink from "next/link";
+import Tags from "./subcomponents/Tags";
 const ListHeader = ({ children }: { children: ReactNode }) => {
   return (
     <Text fontWeight={"500"} fontSize={"lg"}>
@@ -49,10 +50,12 @@ export default function RepoContainer(props: any): JSX.Element {
           </Stack>
 
           <Stack align={"flex-start"} fontSize={"sm"}>
+            <Stack direction={"row"} align={"center"}>
+              <Text>Releases  </Text>
+              <GoTag />  <Tags url={repo.tags} /> 
+              <GoGitBranch /><Text>Branches </Text>
+            </Stack>
             
-            <Text fontSize={"sm"}>
-              Releases  | Tags  | Branches
-            </Text>
             <Text>Code Frequency | Pull Request</Text>
             <Text>License | Enterprise Version</Text>
           </Stack>
@@ -60,8 +63,8 @@ export default function RepoContainer(props: any): JSX.Element {
             <Text>Issues |  Contributors | IsArchived</Text>
             <Text>Last Release Date  | Build Status</Text>
             <Text>Used By | Sponsors</Text>
-            <Text>Size of the package</Text>
-            <Text>No of Test Cases Passed</Text>
+            <Text>Size of the package : {repo.size} </Text>
+            {/* <Text>No of Test Cases Passed</Text> */}
           </Stack>
           <Stack align={"flex-start"}>
             <Stack direction={"row"} align={"center"}>
@@ -83,7 +86,7 @@ export default function RepoContainer(props: any): JSX.Element {
             {repo.topics &&
               repo.topics.map((res: string) => (
                 <>
-                  <Badge variant="solid" colorScheme="linkedin">
+                  <Badge variant="solid" colorScheme="messenger">
                     {res}
                   </Badge>
                 </>
@@ -94,3 +97,7 @@ export default function RepoContainer(props: any): JSX.Element {
     </Box>
   );
 }
+
+
+
+
