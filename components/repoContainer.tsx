@@ -13,9 +13,11 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { ReactNode, useEffect } from "react";
-import { GoStar, GoRepoForked, GoEye, GoTag, GoGitBranch } from "react-icons/go";
+import { GoStar, GoRepoForked, GoEye, GoTag, GoGitBranch, GoIssueOpened, GoOrganization, GoArchive } from "react-icons/go";
 import NextLink from "next/link";
 import Tags from "./subcomponents/Tags";
+import Contributors from "./subcomponents/Contributors";
+
 const ListHeader = ({ children }: { children: ReactNode }) => {
   return (
     <Text fontWeight={"500"} fontSize={"lg"}>
@@ -34,7 +36,7 @@ export default function RepoContainer(props: any): JSX.Element {
       bg="#B1F1F3"
     >
       <Container as={Stack} maxW={"6xl"} py={10}>
-        <SimpleGrid templateColumns={{ sm: "1fr 1fr", md: "2fr 2fr 2fr 2fr" }} spacing={6}>
+        <SimpleGrid templateColumns={{ sm: "1fr 1fr", md: "2fr 2fr 2fr 2fr" }} spacing={4}>
           <Stack>
             <ListHeader>{repo?.name}</ListHeader>
             <Text fontSize={"sm"}>{repo?.full_name}</Text>
@@ -60,7 +62,17 @@ export default function RepoContainer(props: any): JSX.Element {
             <Text>License | Enterprise Version</Text>
           </Stack>
           <Stack align={"flex-start"} fontSize={"sm"}>
-            <Text>Issues |  Contributors | IsArchived</Text>
+            <Stack direction={"row"} align={"center"}>
+              <GoIssueOpened /> <Text>Issues :{repo.issue} |</Text> 
+              <GoOrganization /> <Contributors url={repo.contributors} icon={<GoOrganization />}/>
+            </Stack>
+            <Stack direction={"row"} align={"center"}>
+              <GoArchive />
+              <Text> IsArchived: {repo.archived ? "true" : "false"} |</Text>
+              <GoEye />
+              <Text> Visibility: {repo.visibility}</Text>
+            </Stack>
+            
             <Text>Last Release Date  | Build Status</Text>
             <Text>Used By | Sponsors</Text>
             <Text>Size of the package : {repo.size} </Text>
