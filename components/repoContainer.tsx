@@ -12,11 +12,12 @@ import {
   Badge,
   Link,
 } from "@chakra-ui/react";
-import { ReactNode, useEffect } from "react";
-import { GoStar, GoRepoForked, GoEye, GoTag, GoGitBranch, GoIssueOpened, GoOrganization, GoArchive } from "react-icons/go";
+import { ReactNode, useEffect,useState } from "react";
+import { GoStar, GoRepoForked, GoEye, GoTag, GoGitBranch, GoIssueOpened, GoOrganization, GoArchive, GoWatch } from "react-icons/go";
 import NextLink from "next/link";
 import Tags from "./subcomponents/Tags";
 import Contributors from "./subcomponents/Contributors";
+import moment from "moment"
 
 const ListHeader = ({ children }: { children: ReactNode }) => {
   return (
@@ -27,6 +28,11 @@ const ListHeader = ({ children }: { children: ReactNode }) => {
 };
 export default function RepoContainer(props: any): JSX.Element {
   const { repo } = props;
+  const [updatedTime,setUpdatedTime]=useState("")
+  useEffect(()=>{
+    const newTime = moment(repo.updated_at).startOf('day').fromNow();
+    setUpdatedTime(newTime)
+  },[repo.updated_at])
   return (
     <Box
       // bg={useColorModeValue('gray.50', 'gray.900')}
@@ -36,7 +42,7 @@ export default function RepoContainer(props: any): JSX.Element {
       bg="#B1F1F3"
     >
       <Container as={Stack} maxW={"6xl"} py={10}>
-        <SimpleGrid templateColumns={{ sm: "1fr 1fr", md: "2fr 2fr 2fr 2fr" }} spacing={4}>
+        <SimpleGrid templateColumns={{ sm: "1fr 1fr", md: "2fr 2fr 2fr 2fr" }} spacing={3}>
           <Stack>
             <ListHeader>{repo?.name}</ListHeader>
             <Text fontSize={"sm"}>{repo?.full_name}</Text>
@@ -72,8 +78,10 @@ export default function RepoContainer(props: any): JSX.Element {
               <GoEye />
               <Text> Visibility: {repo.visibility}</Text>
             </Stack>
-            
-            <Text>Last Release Date  | Build Status</Text>
+            <Stack direction={"row"} align={"center"}>
+              <GoWatch /> <Text>Last Updated : {updatedTime}</Text>
+            </Stack>
+          
             <Text>Used By | Sponsors</Text>
             <Text>Size of the package : {repo.size} </Text>
             {/* <Text>No of Test Cases Passed</Text> */}
@@ -98,7 +106,7 @@ export default function RepoContainer(props: any): JSX.Element {
             {repo.topics &&
               repo.topics.map((res: string) => (
                 <>
-                  <Badge variant="solid" colorScheme="messenger">
+                  <Badge variant="solid" colorScheme="messenger" key={res}>
                     {res}
                   </Badge>
                 </>
@@ -109,7 +117,4 @@ export default function RepoContainer(props: any): JSX.Element {
     </Box>
   );
 }
-
-
-
 

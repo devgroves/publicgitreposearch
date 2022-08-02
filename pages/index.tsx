@@ -38,6 +38,7 @@ type RepoItem = {
   contributors:URL;
   archived:Boolean;
   visibility:string;
+  updated_at:string;
 };
 type ContentPageProps = {
   repos: RepoItem[];
@@ -84,7 +85,8 @@ export const getServerSideProps = async ({
       issue: item.open_issues_count,
       contributors: item.contributors_url,
       archived: item.archived,
-      visibility: item.visibility
+      visibility: item.visibility,
+      updated_at: item.updated_at
     };
     return repo;
   });

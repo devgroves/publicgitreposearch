@@ -8,7 +8,6 @@ interface propTypes {
 
 function Contributors(props: propTypes) {
   const { url, icon } = props;
-  console.log('icon :>> ', icon);
   const [count, setCount] = useState();
   useEffect(() => {
     Api.get(url).then(
