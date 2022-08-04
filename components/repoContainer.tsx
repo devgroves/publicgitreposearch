@@ -46,7 +46,7 @@ export default function RepoContainer(props: any): JSX.Element {
       borderRadius={10}
       bg="#B1F1F3"
     >
-      <Container as={Stack} maxW={"6xl"} py={10}>
+      <Container as={Stack} maxW={"9xl"} py={10}>
         <SimpleGrid templateColumns={{ sm: "1fr 1fr", md: "2fr 2fr 2fr 2fr" }} spacing={3}>
           <Stack>
             <ListHeader>{repo?.name}</ListHeader>
