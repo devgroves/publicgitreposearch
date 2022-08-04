@@ -18,6 +18,7 @@ import NextLink from "next/link";
 import Tags from "./subcomponents/Tags";
 import Contributors from "./subcomponents/Contributors";
 import moment from "moment"
+import Branches from "./subcomponents/Branches";
 
 const ListHeader = ({ children }: { children: ReactNode }) => {
   return (
@@ -29,6 +30,7 @@ const ListHeader = ({ children }: { children: ReactNode }) => {
 export default function RepoContainer(props: any): JSX.Element {
   const { repo } = props;
   const [updatedTime,setUpdatedTime]=useState("")
+  const [repoName,setPackageName]=useState(repo.full_name)
   useEffect(()=>{
     const newTime = moment(repo.updated_at).startOf('day').fromNow();
     setUpdatedTime(newTime)
@@ -61,11 +63,11 @@ export default function RepoContainer(props: any): JSX.Element {
             <Stack direction={"row"} align={"center"}>
               <Text>Releases  </Text>
               <GoTag />  <Tags url={repo.tags} /> 
-              <GoGitBranch /><Text>Branches </Text>
+              <GoGitBranch /><Text><Branches  repo={repoName}/> </Text>
             </Stack>
-            
-            <Text>Code Frequency | Pull Request</Text>
-            <Text>License | Enterprise Version</Text>
+            <Text>Size of the package : {repo.size} </Text>
+            <Text>License : {repo.license?.name} | Enterprise Version</Text>
+            <Text>Used By | Sponsors</Text>
           </Stack>
           <Stack align={"flex-start"} fontSize={"sm"}>
             <Stack direction={"row"} align={"center"}>
@@ -82,9 +84,8 @@ export default function RepoContainer(props: any): JSX.Element {
               <GoWatch /> <Text>Last Updated : {updatedTime}</Text>
             </Stack>
           
-            <Text>Used By | Sponsors</Text>
-            <Text>Size of the package : {repo.size} </Text>
-            {/* <Text>No of Test Cases Passed</Text> */}
+            <Text>Build Status | #Test Cases Passed </Text>
+            <Text>Vulnerabilities  | Pull Request</Text>
           </Stack>
           <Stack align={"flex-start"}>
             <Stack direction={"row"} align={"center"}>
