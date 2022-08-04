@@ -30,11 +30,14 @@ const ListHeader = ({ children }: { children: ReactNode }) => {
 export default function RepoContainer(props: any): JSX.Element {
   const { repo } = props;
   const [updatedTime,setUpdatedTime]=useState("")
-  const [repoName,setPackageName]=useState(repo.full_name)
+  const [repoName,setPackageName]=useState("")
   useEffect(()=>{
     const newTime = moment(repo.updated_at).startOf('day').fromNow();
     setUpdatedTime(newTime)
-  },[repo.updated_at])
+  }, [repo.updated_at])
+  useEffect(()=>{
+    setPackageName(repo?.full_name)
+  }, [repo.full_name])
   return (
     <Box
       // bg={useColorModeValue('gray.50', 'gray.900')}
@@ -63,7 +66,7 @@ export default function RepoContainer(props: any): JSX.Element {
             <Stack direction={"row"} align={"center"}>
               <Text>Releases  </Text>
               <GoTag />  <Tags url={repo.tags} /> 
-              <GoGitBranch /><Text><Branches  repo={repoName}/> </Text>
+              <GoGitBranch /><Text>{repoName ?<Branches  repo={repoName}/>:''} </Text>
             </Stack>
             <Text>Size of the package : {repo.size} </Text>
             <Text>License : {repo.license?.name} | Enterprise Version</Text>
