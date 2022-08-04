@@ -68,7 +68,7 @@ export default function RepoContainer(props: any): JSX.Element {
               <GoTag />  <Tags url={repo.tags} /> 
               <GoGitBranch /><Text>{repoName ?<Branches  repo={repoName}/>:''} </Text>
             </Stack>
-            <Text>Size of the package : {repo.size} </Text>
+            <Text>Size of the package : {Math.round((repo.size / 32768) * 100) / 100} MB </Text>
             <Text>License : {repo.license?.name} | Enterprise Version</Text>
             <Text>Used By | Sponsors</Text>
           </Stack>
