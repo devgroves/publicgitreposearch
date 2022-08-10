@@ -40,6 +40,7 @@ type RepoItem = {
   visibility:string;
   updated_at:string;
   license:string;
+  owner:any
 };
 type ContentPageProps = {
   repos: RepoItem[];
@@ -88,7 +89,8 @@ export const getServerSideProps = async ({
       archived: item.archived,
       visibility: item.visibility,
       updated_at: item.updated_at,
-      license: item.license
+      license: item.license,
+      owner: item.owner
     };
     return repo;
   });
@@ -108,7 +110,7 @@ const Home = ({ repos, searchText, count }: ContentPageProps): JSX.Element => {
         <meta name="description" content="Search for Public Github Repositories" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ColorModeSwitcher justifySelf="flex-end" />
+      {/* <ColorModeSwitcher justifySelf="flex-end" /> */}
       <Flex
         align={"center"}
         justify={"center"}

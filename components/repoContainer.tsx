@@ -11,6 +11,7 @@ import {
   useColorModeValue,
   Badge,
   Link,
+  Avatar
 } from "@chakra-ui/react";
 import { ReactNode, useEffect,useState } from "react";
 import { GoStar, GoRepoForked, GoEye, GoTag, GoGitBranch, GoIssueOpened, GoOrganization, GoArchive, GoWatch } from "react-icons/go";
@@ -19,6 +20,7 @@ import Tags from "./subcomponents/Tags";
 import Contributors from "./subcomponents/Contributors";
 import moment from "moment"
 import Branches from "./subcomponents/Branches";
+import PR from "./subcomponents/Pr";
 
 const ListHeader = ({ children }: { children: ReactNode }) => {
   return (
@@ -31,13 +33,15 @@ export default function RepoContainer(props: any): JSX.Element {
   const { repo } = props;
   const [updatedTime,setUpdatedTime]=useState("")
   const [repoName,setPackageName]=useState("")
-  useEffect(()=>{
+  const [owner,setOwner]=useState()
+    useEffect(()=>{
     const newTime = moment(repo.updated_at).startOf('day').fromNow();
     setUpdatedTime(newTime)
   }, [repo.updated_at])
   useEffect(()=>{
     setPackageName(repo?.full_name)
-  }, [repo.full_name])
+    setOwner(repo.owner)
+  }, [repo?.full_name, repo.owner])
   return (
     <Box
       // bg={useColorModeValue('gray.50', 'gray.900')}
@@ -69,7 +73,9 @@ export default function RepoContainer(props: any): JSX.Element {
               <GoGitBranch /><Text>{repoName ?<Branches  repo={repoName}/>:''} </Text>
             </Stack>
             <Text>Size of the package : {Math.round((repo.size / 32768) * 100) / 100} MB </Text>
-            <Text>License : {repo.license?.name} | Enterprise Version</Text>
+            <Text>License : {repo.license?.name} |  <Avatar src={repo?.owner?.avatar_url} size='xs' /> {repo?.owner?.login}</Text>
+           
+              <Text> </Text>
             <Text>Used By | Sponsors</Text>
           </Stack>
           <Stack align={"flex-start"} fontSize={"sm"}>
@@ -88,7 +94,8 @@ export default function RepoContainer(props: any): JSX.Element {
             </Stack>
           
             <Text>Build Status | #Test Cases Passed </Text>
-            <Text>Vulnerabilities  | Pull Request</Text>
+            <PR repo={repoName} /> 
+            {/* <Text> | Vulnerabilities|</Text> */}
           </Stack>
           <Stack align={"flex-start"}>
             <Stack direction={"row"} align={"center"}>
