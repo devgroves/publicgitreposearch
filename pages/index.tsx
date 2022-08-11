@@ -40,7 +40,8 @@ type RepoItem = {
   visibility:string;
   updated_at:string;
   license:string;
-  owner:any
+  owner:any;
+  has_wiki:boolean;
 };
 type ContentPageProps = {
   repos: RepoItem[];
@@ -70,6 +71,7 @@ export const getServerSideProps = async ({
   };
   const res = await fetch(url, token);
   const data = await res.json();
+  console.log('data :>> ', data);
   const repos: RepoItem[] = data.items.map((item: any) => {
     const repo = {
       id: item.id,
@@ -90,7 +92,8 @@ export const getServerSideProps = async ({
       visibility: item.visibility,
       updated_at: item.updated_at,
       license: item.license,
-      owner: item.owner
+      owner: item.owner,
+      has_wiki: item.has_wiki
     };
     return repo;
   });

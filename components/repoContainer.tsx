@@ -68,15 +68,15 @@ export default function RepoContainer(props: any): JSX.Element {
 
           <Stack align={"flex-start"} fontSize={"sm"}>
             <Stack direction={"row"} align={"center"}>
-              <Text>Releases  </Text>
+              {/* <Text>Releases  </Text> */}
               <GoTag />  <Tags url={repo.tags} /> 
               <GoGitBranch /><Text>{repoName ?<Branches  repo={repoName}/>:''} </Text>
             </Stack>
             <Text>Size of the package : {Math.round((repo.size / 32768) * 100) / 100} MB </Text>
             <Text>License : {repo.license?.name} |  <Avatar src={repo?.owner?.avatar_url} size='xs' /> {repo?.owner?.login}</Text>
            
-              <Text> </Text>
-            <Text>Used By | Sponsors</Text>
+           
+            {/* <Text>Used By | Sponsors</Text> */}
           </Stack>
           <Stack align={"flex-start"} fontSize={"sm"}>
             <Stack direction={"row"} align={"center"}>
@@ -93,7 +93,7 @@ export default function RepoContainer(props: any): JSX.Element {
               <GoWatch /> <Text>Last Updated : {updatedTime}</Text>
             </Stack>
           
-            <Text>Build Status | #Test Cases Passed </Text>
+            {/* <Text>Build Status | #Test Cases Passed </Text> */}
             <PR repo={repoName} /> 
             {/* <Text> | Vulnerabilities|</Text> */}
           </Stack>
@@ -105,8 +105,8 @@ export default function RepoContainer(props: any): JSX.Element {
             <NextLink href={`${repo.homepage}`} passHref>
               <Link color="blue">Homepage</Link>
             </NextLink>
-            <Text>Examples</Text>
-            <Text>Wiki Link</Text>
+            {/* <Text>Examples</Text> */}
+            <Text>Wiki Link : {`${repo.has_wiki}`}</Text>
           </Stack>
         </SimpleGrid>
         <SimpleGrid>
