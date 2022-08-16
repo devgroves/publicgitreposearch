@@ -13,8 +13,9 @@ import {
   Link,
   Avatar
 } from "@chakra-ui/react";
-import { ReactNode, useEffect,useState } from "react";
-import { GoStar, GoRepoForked, GoEye, GoTag, GoGitBranch, GoIssueOpened, GoOrganization, GoArchive, GoWatch } from "react-icons/go";
+import { Wrap, WrapItem } from '@chakra-ui/react'
+import { ReactNode, useEffect, useState } from "react";
+import { GoStar, GoRepoForked, GoEye, GoTag, GoGitBranch, GoIssueOpened, GoOrganization, GoArchive, GoWatch, GoGitPullRequest } from "react-icons/go";
 import NextLink from "next/link";
 import Tags from "./subcomponents/Tags";
 import Contributors from "./subcomponents/Contributors";
@@ -31,14 +32,14 @@ const ListHeader = ({ children }: { children: ReactNode }) => {
 };
 export default function RepoContainer(props: any): JSX.Element {
   const { repo } = props;
-  const [updatedTime,setUpdatedTime]=useState("")
-  const [repoName,setPackageName]=useState("")
-  const [owner,setOwner]=useState()
-    useEffect(()=>{
+  const [updatedTime, setUpdatedTime] = useState("")
+  const [repoName, setPackageName] = useState("")
+  const [owner, setOwner] = useState()
+  useEffect(() => {
     const newTime = moment(repo.updated_at).startOf('day').fromNow();
     setUpdatedTime(newTime)
   }, [repo.updated_at])
-  useEffect(()=>{
+  useEffect(() => {
     setPackageName(repo?.full_name)
     setOwner(repo.owner)
   }, [repo?.full_name, repo.owner])
@@ -69,19 +70,17 @@ export default function RepoContainer(props: any): JSX.Element {
           <Stack align={"flex-start"} fontSize={"sm"}>
             <Stack direction={"row"} align={"center"}>
               {/* <Text>Releases  </Text> */}
-              <GoTag />  <Tags url={repo.tags} /> 
-              <GoGitBranch /><Text>{repoName ?<Branches  repo={repoName}/>:''} </Text>
+              <GoTag />  <Tags url={repo.tags} />
+              <GoGitBranch /><Text>{repoName ? <Branches repo={repoName} /> : ''} </Text>
             </Stack>
             <Text>Size of the package : {Math.round((repo.size / 32768) * 100) / 100} MB </Text>
-            <Text>License : {repo.license?.name} |  <Avatar src={repo?.owner?.avatar_url} size='xs' /> {repo?.owner?.login}</Text>
-           
-           
-            {/* <Text>Used By | Sponsors</Text> */}
+            <Text>License : {repo.license?.name}  </Text>
+            <Text><Avatar src={repo?.owner?.avatar_url} size='xs' /> {repo?.owner?.login}</Text>
           </Stack>
           <Stack align={"flex-start"} fontSize={"sm"}>
             <Stack direction={"row"} align={"center"}>
-              <GoIssueOpened /> <Text>Issues :{repo.issue} |</Text> 
-              <GoOrganization /> <Contributors url={repo.contributors} icon={<GoOrganization />}/>
+              <GoIssueOpened /> <Text>Issues :{repo.issue} |</Text>
+              <GoOrganization /> <Contributors url={repo.contributors} icon={<GoOrganization />} />
             </Stack>
             <Stack direction={"row"} align={"center"}>
               <GoArchive />
@@ -92,10 +91,9 @@ export default function RepoContainer(props: any): JSX.Element {
             <Stack direction={"row"} align={"center"}>
               <GoWatch /> <Text>Last Updated : {updatedTime}</Text>
             </Stack>
-          
-            {/* <Text>Build Status | #Test Cases Passed </Text> */}
-            <PR repo={repoName} /> 
-            {/* <Text> | Vulnerabilities|</Text> */}
+            <Stack direction={"row"} align={"center"}>
+              <GoGitPullRequest />  <PR repo={repoName} />
+            </Stack>
           </Stack>
           <Stack align={"flex-start"}>
             <Stack direction={"row"} align={"center"}>
@@ -114,14 +112,18 @@ export default function RepoContainer(props: any): JSX.Element {
         </SimpleGrid>
         <SimpleGrid>
           <Stack direction={"row"} align={"center"}>
-            {repo.topics &&
-              repo.topics.map((res: string) => (
-                <>
-                  <Badge variant="solid" colorScheme="messenger" key={res}>
-                    {res}
-                  </Badge>
-                </>
-              ))}
+            <Wrap>
+              {repo.topics &&
+                repo.topics.map((res: string) => (
+                  <>
+                    <WrapItem key={res}>
+                      <Badge variant="solid" colorScheme="messenger" >
+                        {res}
+                      </Badge>
+                    </WrapItem>
+                  </>
+                ))}
+            </Wrap>
           </Stack>
         </SimpleGrid>
       </Container>
