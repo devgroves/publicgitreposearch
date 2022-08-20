@@ -55,7 +55,11 @@ export default function RepoContainer(props: any): JSX.Element {
         <SimpleGrid templateColumns={{ sm: "1fr 1fr", md: "2fr 2fr 2fr 2fr" }} spacing={3}>
           <Stack>
             <ListHeader>{repo?.name}</ListHeader>
-            <Text fontSize={"sm"}>{repo?.full_name}</Text>
+            <Text fontSize={"sm"}>
+              <NextLink href={`https://github.com/${repo?.full_name}`} passHref>
+                <Link color="blue">{repo?.full_name}</Link>
+              </NextLink>
+              </Text>
             <Stack direction={"row"} mt={10}>
               <Text fontSize={"sm"}>
                 Language:{" "}
@@ -74,7 +78,7 @@ export default function RepoContainer(props: any): JSX.Element {
               <GoGitBranch /><Text>{repoName ? <Branches repo={repoName} /> : ''} </Text>
             </Stack>
             <Text>Size of the package : {Math.round((repo.size / 32768) * 100) / 100} MB </Text>
-            <Text>License : {repo.license?.name}  </Text>
+            <Text>License : {repo.license?.name ? repo.license?.name:"None"}  </Text>
             <Text><Avatar src={repo?.owner?.avatar_url} size='xs' /> {repo?.owner?.login}</Text>
           </Stack>
           <Stack align={"flex-start"} fontSize={"sm"}>
@@ -104,7 +108,11 @@ export default function RepoContainer(props: any): JSX.Element {
               <Link color="blue">Homepage</Link>
             </NextLink>
             {/* <Text>Examples</Text> */}
-            <Text>Wiki Link : {`${repo.has_wiki}`}</Text>
+            <Text>Wiki Link : {repo.has_wiki ? (
+              <NextLink href={`https://github.com/${repo?.full_name}/wiki`} passHref>
+                <Link color="blue">{`click here`}</Link>
+              </NextLink>
+            ):("none")}</Text>
           </Stack>
         </SimpleGrid>
         <SimpleGrid>
