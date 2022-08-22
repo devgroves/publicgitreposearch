@@ -71,7 +71,7 @@ export const getServerSideProps = async ({
   };
   const res = await fetch(url, token);
   const data = await res.json();
-  console.log('data :>> ', data);
+  // console.log('data :>> ', data);
   const repos: RepoItem[] = data.items.map((item: any) => {
     const repo = {
       id: item.id,

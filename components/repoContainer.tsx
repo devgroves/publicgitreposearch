@@ -22,6 +22,7 @@ import Contributors from "./subcomponents/Contributors";
 import moment from "moment"
 import Branches from "./subcomponents/Branches";
 import PR from "./subcomponents/Pr";
+import { GetServerSidePropsContext, GetStaticPropsResult } from "next";
 
 const ListHeader = ({ children }: { children: ReactNode }) => {
   return (
@@ -30,6 +31,7 @@ const ListHeader = ({ children }: { children: ReactNode }) => {
     </Text>
   );
 };
+
 export default function RepoContainer(props: any): JSX.Element {
   const { repo } = props;
   const [updatedTime, setUpdatedTime] = useState("")
