@@ -1,9 +1,8 @@
 import type { GetServerSidePropsContext, GetStaticPropsContext, GetStaticPropsResult, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { ColorModeSwitcher } from "../components/mode";
 import styles from "../styles/Home.module.css";
-import { FormEvent, ChangeEvent, useState } from "react";
+import { FormEvent, ChangeEvent, useState, useRef, MutableRefObject, LegacyRef } from "react";
 import {
   Stack,
   FormControl,
@@ -14,7 +13,6 @@ import {
   VStack,
   Flex,
   Spacer,
-  Text,
   Container,
 } from "@chakra-ui/react";
 import { ArrowDownIcon, ArrowUpIcon, CheckIcon } from "@chakra-ui/icons";
@@ -105,6 +103,8 @@ const Home = ({ repos, searchText, count }: ContentPageProps): JSX.Element => {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState(false);
   const router = useRouter();
+  const el: MutableRefObject<HTMLInputElement | null> = useRef(null);
+  console.log('searchText', searchText);
 
   return (
     <div className={styles.container}>
@@ -142,9 +142,7 @@ const Home = ({ repos, searchText, count }: ContentPageProps): JSX.Element => {
                 borderColor={useColorModeValue("gray.300", "gray.700")}
                 required
                 value={search || searchText}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  setSearch(e.target.value);
-                }}
+                ref={el}
                 placeholder="example: reactlightbox , ......"
               />
             </FormControl>
@@ -154,7 +152,7 @@ const Home = ({ repos, searchText, count }: ContentPageProps): JSX.Element => {
                 w="100%"
                 type={"submit"}
                 onClick={() => {
-                  router.push(`?q=${search}`);
+                  router.push(`?q=${el.current ? el.current.value : null}`);
                 }}
               >
                 {"Search"}

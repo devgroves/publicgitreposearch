@@ -81,7 +81,7 @@ export default function RepoContainer(props: any): JSX.Element {
             </Stack>
             <Text>Size of the package : {Math.round((repo.size / 32768) * 100) / 100} MB </Text>
             <Text>License : {repo.license?.name ? repo.license?.name:"None"}  </Text>
-            <Text><Avatar src={repo?.owner?.avatar_url} size='xs' /> {repo?.owner?.login}</Text>
+            <Text>Owner : <Avatar src={repo?.owner?.avatar_url} size='xs' /> {repo?.owner?.login}</Text>
           </Stack>
           <Stack align={"flex-start"} fontSize={"sm"}>
             <Stack direction={"row"} align={"center"}>
@@ -110,11 +110,11 @@ export default function RepoContainer(props: any): JSX.Element {
               <Link color="blue">Homepage</Link>
             </NextLink>
             {/* <Text>Examples</Text> */}
-            <Text>Wiki Link : {repo.has_wiki ? (
+            {repo.has_wiki ? (
               <NextLink href={`https://github.com/${repo?.full_name}/wiki`} passHref>
-                <Link color="blue">{`click here`}</Link>
+                <Link color="blue">Wiki Link</Link>
               </NextLink>
-            ):("none")}</Text>
+            ): ""}
           </Stack>
         </SimpleGrid>
         <SimpleGrid>
