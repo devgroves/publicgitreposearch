@@ -58,7 +58,7 @@ export const getServerSideProps = async ({
   if (!query || !query?.q) {
     return { props: { repos: [], searchText: "", count: 0 } };
   }
-  const searchText: string = query.q[0];
+  const searchText: string = query.q;
   const url = `https://api.github.com/search/repositories?q=${query?.q}`;
   const token = {
     headers: {
@@ -141,7 +141,7 @@ const Home = ({ repos, searchText, count }: ContentPageProps): JSX.Element => {
                 }}
                 borderColor={useColorModeValue("gray.300", "gray.700")}
                 required
-                value={search || searchText}
+                defaultValue={ searchText }
                 ref={el}
                 placeholder="example: reactlightbox , ......"
               />
