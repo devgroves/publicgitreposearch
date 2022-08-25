@@ -7,7 +7,7 @@ interface propTypes {
 
 function PR(props: propTypes) {
   const { repo } = props;
-  const [count, setCount] = useState();
+  const [count, setCount] = useState(0);
   useEffect(() => {
       if (repo) {
         fetch(`/api/prcounts?repo=${repo}`).then((res) => res.json()).then(res => {
@@ -18,14 +18,7 @@ function PR(props: propTypes) {
       } else {
         setCount(0);
       }
-    // Api.get(`https://api.github.com/repos/${repo}/pulls`).then(
-    //   res => {
-    //     setCount(res.data.length)
-    //   }
-    // ).catch((err: any) => {
-    //   console.log('err :>> ', err);
-    // })
-  })
+  }, [repo])
   return (
     <div className='center'>   Pull Request : {count}</div>
   )
