@@ -1,18 +1,19 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next';
+import * as https from "https";
+import { ClientRequest, IncomingMessage } from 'http';
 
-let https: any;
-try {
-    https = require('https');
-} catch (err) {
-  console.log('https support is disabled!');
+type ResponseData = {
+  data: string
 }
+
+
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<ResponseData>
 ) {
-    const repoName = req.query.repo;
+    const repoName: string = req.query.repo;
     const url = new URL(`https://api.github.com/repos/${repoName}/pulls`);
     console.log('url ', url.toString());
     const options = { 'headers' : {
@@ -23,17 +24,15 @@ export default function handler(
     'method': 'GET',
     };
 
-    const clientreq = https.request(url, options, (githubres: any) => {
-        console.log('statusCode:', githubres.statusCode);
+    const clientreq: ClientRequest = https.request(url, options, (apiresponse: IncomingMessage) => {
         let respJson: string = "";
-        // Print the HPKP values
 
-        githubres.on('data', (chunk: string) => { 
+        apiresponse.on('data', (chunk: string) => { 
           respJson += chunk;
         });
 
-        githubres.on('end', () => {
-          if (githubres.statusCode === 200) {
+        apiresponse.on('end', () => {
+          if (apiresponse.statusCode === 200) {
             let prResponses = JSON.parse(respJson);
             const prCounts = prResponses.length;
             res.status(200).json({'data': prCounts});
@@ -41,7 +40,7 @@ export default function handler(
         })
     });
 
-    clientreq.on('error', (e: any) => {
+    clientreq.on('error', (e: Error) => {
         console.error('error message', e.message);
     });
     clientreq.end();

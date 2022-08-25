@@ -90,7 +90,7 @@ export default function RepoContainer(props: any): JSX.Element {
             </Stack>
             <Stack direction={"row"} align={"center"}>
               <GoArchive />
-              <Text> IsArchived: {repo.archived ? "true" : "false"} |</Text>
+              <Text style={{ color: repo.archived ? 'red': 'black'}}> IsArchived: {repo.archived ? "true" : "false"} |</Text>
               <GoEye />
               <Text> Visibility: {repo.visibility}</Text>
             </Stack>
