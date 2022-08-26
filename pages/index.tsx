@@ -62,7 +62,7 @@ export const getServerSideProps = async ({
   const url = `https://api.github.com/search/repositories?q=${query?.q}`;
   const token = {
     headers: {
-      Authorization: `token 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`,
+      Authorization: `token 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`,
       Accept: "application/vnd.github.v3+json",
     },
     method: "GET",
