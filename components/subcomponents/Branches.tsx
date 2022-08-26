@@ -7,16 +7,15 @@ interface propTypes {
 
 function Branches(props: propTypes) {
   const { repo } = props;
-  const [count, setCount] = useState();
+  const [count, setCount] = useState(0);
   useEffect(() => {
-    Api.get(`https://api.github.com/repos/${repo}/branches`).then(
-      res => {
-        setCount(res.data.length)
-      }
-    ).catch((err:any)=>{
+    fetch(`/api/branchcount?repo=${repo}`).then((res) => res.json()).then(res => {
+      const branch_count = res.data;
+      setCount(branch_count);
+    }).catch((err:any)=>{
       console.log('err :>> ', err);
     })
-  })
+  }, [repo])
   return (
     <div className='center'>   Branches : {count}</div>
   )

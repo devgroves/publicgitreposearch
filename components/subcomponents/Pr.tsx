@@ -12,7 +12,6 @@ function PR(props: propTypes) {
       if (repo) {
         fetch(`/api/prcounts?repo=${repo}`).then((res) => res.json()).then(res => {
           const prcount = res.data;
-          console.log(`pr count ${prcount}`);
           setCount(prcount);
         });
       } else {

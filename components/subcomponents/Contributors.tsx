@@ -8,14 +8,13 @@ interface propTypes {
 
 function Contributors(props: propTypes) {
   const { url, icon } = props;
-  const [count, setCount] = useState();
+  const [count, setCount] = useState(0);
   useEffect(() => {
-    Api.get(url).then(
-      res => {
-        setCount(res.data.length)
-      }
-    )
-  })
+    fetch(`/api/contributers?url=${url}`).then((res) => res.json()).then(res => {
+      const tags_count = res.data;
+      setCount(tags_count);
+    });
+  },url)
   return (
     <div className='center'>Contributors : {count}</div>
   )

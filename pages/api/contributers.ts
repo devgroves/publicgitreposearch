@@ -1,0 +1,40 @@
+import type { NextApiRequest, NextApiResponse } from "next";
+import * as https from "https";
+import { ClientRequest, IncomingMessage } from "http";
+
+type ResponseData = {
+  data: string;
+};
+
+export default function handler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
+  const url: string = req.query.url;
+  const options = {
+    headers: {
+      Authorization: `token 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`,
+      Accept: "application/vnd.github.v3+json",
+      "User-Agent": "Mozilla/5.0",
+    },
+    method: "GET",
+  };
+
+  const clientreq: ClientRequest = https.request(url, options, (apiresponse: IncomingMessage) => {
+    let respJson: string = "";
+
+    apiresponse.on("data", (chunk: string) => {
+      respJson += chunk;
+    });
+
+    apiresponse.on("end", () => {
+      if (apiresponse.statusCode === 200) {
+        let prResponses = JSON.parse(respJson);
+        const prCounts = prResponses.length;
+        res.status(200).json({ data: prCounts });
+      }
+    });
+  });
+
+  clientreq.on("error", (e: Error) => {
+    console.error("error message", e.message);
+  });
+  clientreq.end();
+}

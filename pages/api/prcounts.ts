@@ -15,7 +15,6 @@ export default function handler(
 ) {
     const repoName: string = req.query.repo;
     const url = new URL(`https://api.github.com/repos/${repoName}/pulls`);
-    console.log('url ', url.toString());
     const options = { 'headers' : {
         'Authorization': `token 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`,
         'Accept': "application/vnd.github.v3+json",
