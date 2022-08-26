@@ -14,7 +14,7 @@ function Contributors(props: propTypes) {
       const tags_count = res.data;
       setCount(tags_count);
     });
-  },url)
+  },[url])
   return (
     <div className='center'>Contributors : {count}</div>
   )
