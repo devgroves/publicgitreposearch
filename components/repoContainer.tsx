@@ -1,13 +1,9 @@
 import {
   Box,
-  chakra,
   Container,
   SimpleGrid,
   Stack,
   Text,
-  VisuallyHidden,
-  Input,
-  IconButton,
   useColorModeValue,
   Badge,
   Link,
@@ -22,7 +18,6 @@ import Contributors from "./subcomponents/Contributors";
 import moment from "moment"
 import Branches from "./subcomponents/Branches";
 import PR from "./subcomponents/Pr";
-import { GetServerSidePropsContext, GetStaticPropsResult } from "next";
 
 const ListHeader = ({ children }: { children: ReactNode }) => {
   return (
@@ -47,7 +42,6 @@ export default function RepoContainer(props: any): JSX.Element {
   }, [repo?.full_name, repo.owner])
   return (
     <Box
-      // bg={useColorModeValue('gray.50', 'gray.900')}
       color={useColorModeValue("gray.700", "gray.200")}
       w={"100%"}
       borderRadius={10}
@@ -77,7 +71,7 @@ export default function RepoContainer(props: any): JSX.Element {
             <Stack direction={"row"} align={"center"}>
               {/* <Text>Releases  </Text> */}
               <GoTag />  <Tags url={repo.tags} />
-              <GoGitBranch /><Text>{repoName ? <Branches repo={repoName} /> : ''} </Text>
+              <GoGitBranch /> <Branches repo={repoName} /> 
             </Stack>
             <Text>Size of the package : {Math.round((repo.size / 32768) * 100) / 100} MB </Text>
             <Text>License : {repo.license?.name ? repo.license?.name:"None"}  </Text>

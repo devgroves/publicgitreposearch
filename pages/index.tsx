@@ -1,4 +1,4 @@
-import type { GetServerSidePropsContext, GetStaticPropsContext, GetStaticPropsResult, NextPage } from "next";
+import type { GetServerSidePropsContext, GetStaticPropsResult } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import styles from "../styles/Home.module.css";
@@ -51,10 +51,13 @@ type QueryParams = {
   q: string;
 };
 
+
+
 export const getServerSideProps = async ({
   query,
 }: GetServerSidePropsContext<QueryParams>): Promise<GetStaticPropsResult<ContentPageProps>> => {
   console.log("context.query :>> ", query);
+ 
   if (!query || !query?.q) {
     return { props: { repos: [], searchText: "", count: 0 } };
   }
@@ -105,6 +108,7 @@ const Home = ({ repos, searchText, count }: ContentPageProps): JSX.Element => {
   const router = useRouter();
   const el: MutableRefObject<HTMLInputElement | null> = useRef(null);
   console.log('searchText', searchText);
+
 
   return (
     <div className={styles.container}>
