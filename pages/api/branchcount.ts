@@ -12,7 +12,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Respon
   const url = new URL(`https://api.github.com/repos/${repoName}/pulls`);
   const options = {
     headers: {
-      Authorization: `token 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`,
+      Authorization: process.env.token,
       Accept: "application/vnd.github.v3+json",
       "User-Agent": "Mozilla/5.0",
     },
