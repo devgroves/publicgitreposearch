@@ -13,7 +13,7 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) {
-    const repoName: string = req.query.repo;
+    const repoName: string = `${req.query.repo}`;
     const url = new URL(`https://api.github.com/repos/${repoName}/pulls`);
     const options = { 'headers' : {
         'Authorization': process.env.token,

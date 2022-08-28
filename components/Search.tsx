@@ -15,13 +15,13 @@ import { ColorModeSwitcher } from './mode';
 
 export async function getServerSideProps() {
   // Fetch data from external API
-  const res = await fetch(`https://docs.github.com/en/rest/search#search-repositories`)
-  const data = await res.json()
+  const res = await fetch(`https://docs.github.com/en/rest/search#search-repositories`);
+  const data = await res.json();
 
   // Pass data to the page via props
   return { props: {data}  }
 }
-export default function Search({data}) {
+export default function Search() {
   const [search, setSearch] = useState('')
   const [filter,setFilter]=useState(false)
   return (

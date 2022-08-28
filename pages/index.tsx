@@ -61,13 +61,13 @@ export const getServerSideProps = async ({
   if (!query || !query?.q) {
     return { props: { repos: [], searchText: "", count: 0 } };
   }
-  const searchText: string = query.q;
+  const searchText: string = `${query.q}`;
   const url = `https://api.github.com/search/repositories?q=${query?.q}`;
-  const token = {
-    headers: {
-      Authorization: process.env.token,
-      Accept: "application/vnd.github.v3+json",
-    },
+  const token: RequestInit = {
+    headers: [
+      ["Authorization", `${process.env.token}`],
+      ["Accept", "application/vnd.github.v3+json"]
+    ],
     method: "GET",
   };
   const res = await fetch(url, token);

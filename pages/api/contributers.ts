@@ -7,7 +7,7 @@ type ResponseData = {
 };
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
-  const url: string = req.query.url;
+  const url: string = `${req.query.url}`;
   const options = {
     headers: {
       Authorization: process.env.token,

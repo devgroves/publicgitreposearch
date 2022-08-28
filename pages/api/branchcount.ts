@@ -8,8 +8,8 @@ type ResponseData = {
 };
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
-  const repoName: string = req.query.repo;
-  const url = new URL(`https://api.github.com/repos/${repoName}/pulls`);
+  // const repoName: string = req.query.repo ? (req.query.repo.length > 0 ? req.query.repo[0] : req.query.repo) : '';
+  const url = new URL(`https://api.github.com/repos/${req.query.repo}/pulls`);
   const options = {
     headers: {
       Authorization: process.env.token,
