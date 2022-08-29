@@ -49,7 +49,7 @@ export default function RepoContainer(props: any): JSX.Element {
     >
       <Container as={Stack} maxW={"9xl"} py={10}>
         <SimpleGrid templateColumns={{ sm: "1fr 1fr", md: "2fr 2fr 2fr 2fr" }} spacing={3}>
-          <Stack>
+          <Stack>{/* First stack component */}
             <ListHeader>{repo?.name}</ListHeader>
             <Text fontSize={"sm"}>
               <NextLink href={`https://github.com/${repo?.full_name}`} passHref>
@@ -67,7 +67,7 @@ export default function RepoContainer(props: any): JSX.Element {
             <Stack direction={"row"}>frameworks :</Stack>
           </Stack>
 
-          <Stack align={"flex-start"} fontSize={"sm"}>
+          <Stack align={"flex-start"} fontSize={"sm"}>{/* Second stack component */}
             <Stack direction={"row"} align={"center"}>
               {/* <Text>Releases  </Text> */}
               <GoTag />  <Tags url={repo.tags} />
@@ -77,7 +77,7 @@ export default function RepoContainer(props: any): JSX.Element {
             <Text>License : {repo.license?.name ? repo.license?.name:"None"}  </Text>
             <Text>Owner : <Avatar src={repo?.owner?.avatar_url} size='xs' /> {repo?.owner?.login}</Text>
           </Stack>
-          <Stack align={"flex-start"} fontSize={"sm"}>
+          <Stack align={"flex-start"} fontSize={"sm"}>{/* Third stack component */}
             <Stack direction={"row"} align={"center"}>
               <GoIssueOpened /> <Text>Issues :{repo.issue} |</Text>
               <GoOrganization /> <Contributors url={repo.contributors} icon={<GoOrganization />} />
@@ -95,7 +95,7 @@ export default function RepoContainer(props: any): JSX.Element {
               <GoGitPullRequest />  <PR repo={repoName} />
             </Stack>
           </Stack>
-          <Stack align={"flex-start"}>
+          <Stack align={"flex-start"}>{/* Fourth stack component */}
             <Stack direction={"row"} align={"center"}>
               <GoStar /> <Text>{repo.stars} |</Text> <GoRepoForked /> <Text>{repo.forks} |</Text>
               <GoEye /> <Text>{repo.watchers} </Text>
@@ -111,10 +111,10 @@ export default function RepoContainer(props: any): JSX.Element {
             ): ""}
           </Stack>
         </SimpleGrid>
-        <SimpleGrid>
+        <SimpleGrid>{/* Repo description */}
           <Text>Description :{repo.description}</Text>
         </SimpleGrid>
-        <SimpleGrid>
+        <SimpleGrid>{/* Repo Topics */}
           <Stack direction={"row"} align={"center"}>
             <Wrap>
               {repo.topics &&

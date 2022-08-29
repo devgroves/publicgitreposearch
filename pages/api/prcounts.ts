@@ -7,8 +7,6 @@ type ResponseData = {
   data: string
 }
 
-
-
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
